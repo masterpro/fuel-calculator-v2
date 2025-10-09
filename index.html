@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор расхода топлива (Euro)</title>
-    <!-- PWA настройки -->
     <meta name="description" content="Калькулятор расхода топлива с ценой в евро">
     <link rel="apple-touch-icon" href="https://i.postimg.cc/BZzF8VJD/car.png">
     <link rel="manifest" href="manifest.json">
@@ -144,7 +143,6 @@
             `;
         }
 
-        // Регистрируем Service Worker для офлайн-работы
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').catch(err => {
@@ -154,5 +152,5 @@
         }
     </script>
 </body>
-
 </html>
+
