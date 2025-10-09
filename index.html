@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор расхода топлива (Euro)</title>
+    <!-- PWA настройки -->
+    <meta name="description" content="Калькулятор расхода топлива с ценой в евро">
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/4F46E5/FFFFFF?text=⛽">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4F46E5">
+    <style>
+        body {
+            background: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .calculator {
+            background: rgba(245, 245, 245, 0.7);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 360px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .title {
+            text-align: center;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 24px;
+            font-size: 1.4rem;
+        }
+        
+        .input-group {
+            margin-bottom: 18px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background: white;
+        }
+        
+        .button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 8px;
+            background: linear-gradient(to bottom, #e0e0e0, #f0f0f0);
+            color: #333;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .button:hover {
+            background: linear-gradient(to bottom, #d0d0d0, #e0e0e0);
+            transform: translateY(-1px);
+        }
+        
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #222;
+            border: 1px solid #eee;
+        }
+        
+        .unit {
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1 class="title">Расход топлива</h1>
+        
+        <div class="input-group">
+            <label class="input-label">Цена топлива (€/л)</label>
+            <input type="number" class="input-field" id="price" placeholder="Введите цену за литр" min="0" step="0.01" value="1.50">
+        </div>
+        
+        <div class="input-group">
+            <label class="input-label">Расход топлива на 100 км (л)</label>
+            <input type="number" class="input-field" id="consumption" placeholder="Введите расход на 100 км" min="0" step="0.1" value="6.5">
+        </div>
+        
+        <div class="input-group">
+            <label class="input-label">Расстояние (км)</label>
+            <input type="number" class="input-field" id="distance" placeholder="Введите расстояние" min="0" step="0.1" value="100">
+        </div>
+        
+        <button class="button" onclick="calculate()">Рассчитать</button>
+        
+        <div class="result" id="result">
+            Результат появится здесь
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const consumption = parseFloat(document.getElementById('consumption').value) || 0;
+            const distance = parseFloat(document.getElementById('distance').value) || 0;
+            
+            if (price <= 0 || consumption <= 0 || distance <= 0) {
+                document.getElementById('result').textContent = 'Введите корректные данные';
+                return;
+            }
+            
+            const fuelUsed = (consumption / 100) * distance;
+            const totalCost = fuelUsed * price;
+            
+            document.getElementById('result').innerHTML = `
+                Расход топлива: ${fuelUsed.toFixed(2)} л<br>
+                Стоимость: ${totalCost.toFixed(2)} €
+            `;
+        }
+
+        // Регистрируем Service Worker для офлайн-работы
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
