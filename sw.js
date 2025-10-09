@@ -3,8 +3,8 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  'https://placehold.co/192x192/4F46E5/FFFFFF?text=⛽',
-  'https://placehold.co/512x512/4F46E5/FFFFFF?text=⛽'
+  'https://i.postimg.cc/2SXWR93n/car-192.png',
+  'https://i.postimg.cc/BZzF8VJD/car.png'
 ];
 
 self.addEventListener('install', event => {
